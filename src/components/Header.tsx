@@ -12,7 +12,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 text-blue-700 font-bold text-xl hover:text-blue-800 transition-colors">
             <GraduationCap size={28} />
-            <span>연구박사</span>
+            <span>studyhard</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">

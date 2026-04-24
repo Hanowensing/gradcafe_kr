@@ -71,7 +71,7 @@ export default function ResultCard({ result, onUpvote }: Props) {
             className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 transition-colors text-sm"
           >
             <MessageCircle size={15} />
-            <span>{result.comments.length}</span>
+            <span>{result.commentCount ?? result.comments.length}</span>
           </Link>
         </div>
       </div>

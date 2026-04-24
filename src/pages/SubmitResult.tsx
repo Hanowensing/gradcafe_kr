@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Loader2 } from 'lucide-react';
 import { UNIVERSITIES, DEPARTMENTS, SEASONS } from '../data/mockData';
 import type { Decision, Degree, Season } from '../types';
 import SearchCombobox from '../components/SearchCombobox';
+import { supabase } from '../lib/supabase';
 
 interface FormData {
   university: string;
@@ -29,6 +30,7 @@ export default function SubmitResult() {
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>(init);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
 
   const update = (key: keyof FormData, value: string) => {
@@ -46,14 +48,29 @@ export default function SubmitResult() {
     return errs;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
       return;
     }
-    setSubmitted(true);
+    setSubmitting(true);
+    const { error } = await supabase.from('results').insert({
+      university: form.university,
+      department: form.department,
+      degree: form.degree,
+      decision: form.decision,
+      season: form.season,
+      gpa: form.gpa ? parseFloat(form.gpa) : null,
+      gpa_max: form.gpaMax ? parseFloat(form.gpaMax) : null,
+      english_type: form.englishType || null,
+      english_score: form.englishScore ? parseFloat(form.englishScore) : null,
+      research_exp: form.researchExp === 'true' ? true : form.researchExp === 'false' ? false : null,
+      note: form.note || null,
+    });
+    setSubmitting(false);
+    if (!error) setSubmitted(true);
   };
 
   if (submitted) {
@@ -230,9 +247,11 @@ export default function SubmitResult() {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm"
+            disabled={submitting}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3.5 rounded-xl transition-colors text-sm flex items-center justify-center gap-2"
           >
-            익명으로 등록하기
+            {submitting && <Loader2 size={16} className="animate-spin" />}
+            {submitting ? '등록 중...' : '익명으로 등록하기'}
           </button>
         </form>
       </div>

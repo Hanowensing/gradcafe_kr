@@ -1,18 +1,106 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import { ArrowLeft, ThumbsUp, BookOpen, FlaskConical, Send } from 'lucide-react';
-import { mockResults } from '../data/mockData';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, ThumbsUp, BookOpen, FlaskConical, Send, Loader2 } from 'lucide-react';
 import DecisionBadge from '../components/DecisionBadge';
 import { formatDistanceToNow, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import type { Comment } from '../types';
+import type { AdmissionResult, Comment } from '../types';
+import { supabase } from '../lib/supabase';
 
 export default function ResultDetail() {
   const { id } = useParams<{ id: string }>();
-  const result = mockResults.find(r => r.id === id);
-  const [comments, setComments] = useState<Comment[]>(result?.comments ?? []);
+  const [result, setResult] = useState<AdmissionResult | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState('');
-  const [upvotes, setUpvotes] = useState(result?.upvotes ?? 0);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (!id) return;
+    fetchResult();
+    fetchComments();
+  }, [id]);
+
+  const fetchResult = async () => {
+    const { data } = await supabase
+      .from('results')
+      .select('*')
+      .eq('id', id)
+      .single();
+    if (data) {
+      setResult({
+        id: data.id,
+        university: data.university,
+        department: data.department,
+        degree: data.degree,
+        decision: data.decision,
+        season: data.season,
+        gpa: data.gpa ?? undefined,
+        gpaMax: data.gpa_max ?? undefined,
+        englishType: data.english_type ?? undefined,
+        englishScore: data.english_score ?? undefined,
+        researchExp: data.research_exp ?? undefined,
+        note: data.note ?? undefined,
+        createdAt: data.created_at,
+        upvotes: data.upvotes,
+        comments: [],
+      });
+    }
+    setLoading(false);
+  };
+
+  const fetchComments = async () => {
+    const { data } = await supabase
+      .from('comments')
+      .select('*')
+      .eq('result_id', id)
+      .order('created_at', { ascending: true });
+    if (data) {
+      setComments(data.map(c => ({
+        id: c.id,
+        author: '익명',
+        body: c.body,
+        createdAt: c.created_at,
+      })));
+    }
+  };
+
+  const handleUpvote = async () => {
+    if (!result) return;
+    await supabase
+      .from('results')
+      .update({ upvotes: result.upvotes + 1 })
+      .eq('id', result.id);
+    setResult(prev => prev ? { ...prev, upvotes: prev.upvotes + 1 } : prev);
+  };
+
+  const handleComment = async () => {
+    if (!commentText.trim() || !id) return;
+    setSubmitting(true);
+    const { data } = await supabase
+      .from('comments')
+      .insert({ result_id: id, body: commentText.trim() })
+      .select()
+      .single();
+    if (data) {
+      setComments(prev => [...prev, {
+        id: data.id,
+        author: '익명',
+        body: data.body,
+        createdAt: data.created_at,
+      }]);
+    }
+    setCommentText('');
+    setSubmitting(false);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-20 text-slate-400">
+        <Loader2 size={32} className="animate-spin" />
+      </div>
+    );
+  }
 
   if (!result) {
     return (
@@ -23,18 +111,6 @@ export default function ResultDetail() {
     );
   }
 
-  const handleComment = () => {
-    if (!commentText.trim()) return;
-    const newComment: Comment = {
-      id: Date.now().toString(),
-      author: '익명',
-      body: commentText.trim(),
-      createdAt: new Date().toISOString(),
-    };
-    setComments(prev => [...prev, newComment]);
-    setCommentText('');
-  };
-
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <Link to="/" className="inline-flex items-center gap-1.5 text-slate-500 hover:text-blue-700 text-sm mb-6 transition-colors">
@@ -43,44 +119,27 @@ export default function ResultDetail() {
       </Link>
 
       <div className="bg-white rounded-2xl border border-slate-200 p-6 md:p-8">
-        {/* 헤더 */}
         <div className="flex flex-wrap gap-2 mb-3">
           <DecisionBadge decision={result.decision} />
           <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">{result.degree}</span>
           <span className="text-xs bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">{result.season}</span>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-slate-900 mb-1">
-          {result.university}
-        </h1>
+        <h1 className="text-2xl font-extrabold text-slate-900 mb-1">{result.university}</h1>
         <p className="text-slate-500 text-base mb-6">{result.department}</p>
 
-        {/* 스펙 정보 */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           {result.gpa && (
-            <SpecItem
-              icon={<BookOpen size={16} />}
-              label="학점"
-              value={`${result.gpa} / ${result.gpaMax ?? 4.5}`}
-            />
+            <SpecItem icon={<BookOpen size={16} />} label="학점" value={`${result.gpa} / ${result.gpaMax ?? 4.5}`} />
           )}
           {result.englishScore && (
-            <SpecItem
-              icon={<span className="text-xs font-bold">{result.englishType}</span>}
-              label="영어 점수"
-              value={String(result.englishScore)}
-            />
+            <SpecItem icon={<span className="text-xs font-bold">{result.englishType}</span>} label="영어 점수" value={String(result.englishScore)} />
           )}
           {result.researchExp !== undefined && (
-            <SpecItem
-              icon={<FlaskConical size={16} />}
-              label="연구 경험"
-              value={result.researchExp ? '있음' : '없음'}
-            />
+            <SpecItem icon={<FlaskConical size={16} />} label="연구 경험" value={result.researchExp ? '있음' : '없음'} />
           )}
         </div>
 
-        {/* 메모 */}
         {result.note && (
           <div className="bg-slate-50 rounded-xl p-4 mb-6">
             <p className="text-sm text-slate-700 leading-relaxed">{result.note}</p>
@@ -90,16 +149,15 @@ export default function ResultDetail() {
         <div className="flex items-center justify-between text-sm text-slate-400 border-t border-slate-100 pt-4">
           <span>{format(new Date(result.createdAt), 'yyyy년 M월 d일', { locale: ko })}</span>
           <button
-            onClick={() => setUpvotes(v => v + 1)}
+            onClick={handleUpvote}
             className="flex items-center gap-1.5 text-slate-400 hover:text-blue-600 transition-colors"
           >
             <ThumbsUp size={16} />
-            도움됐어요 {upvotes}
+            도움됐어요 {result.upvotes}
           </button>
         </div>
       </div>
 
-      {/* 댓글 */}
       <div className="mt-8">
         <h2 className="text-lg font-bold text-slate-800 mb-4">댓글 {comments.length}개</h2>
 
@@ -120,7 +178,6 @@ export default function ResultDetail() {
           ))}
         </div>
 
-        {/* 댓글 입력 */}
         <div className="flex gap-2">
           <input
             type="text"
@@ -132,9 +189,10 @@ export default function ResultDetail() {
           />
           <button
             onClick={handleComment}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl transition-colors flex items-center gap-1.5 text-sm font-medium"
+            disabled={submitting}
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-5 py-3 rounded-xl transition-colors flex items-center gap-1.5 text-sm font-medium"
           >
-            <Send size={15} />
+            {submitting ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}
             등록
           </button>
         </div>

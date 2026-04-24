@@ -18,6 +18,7 @@ export interface AdmissionResult {
   createdAt: string;
   upvotes: number;
   comments: Comment[];
+  commentCount?: number;
 }
 
 export interface Comment {
