@@ -14,63 +14,7 @@ interface Post {
   pinned?: boolean;
 }
 
-const MOCK_POSTS: Post[] = [
-  {
-    id: '1',
-    title: '연구계획서(SOP) 작성 팁 공유합니다',
-    body: '여러 합격자들의 SOP를 참고해서 정리한 내용입니다. 교수님 연구와의 연결고리가 가장 중요합니다...',
-    category: '정보공유',
-    upvotes: 87,
-    commentCount: 23,
-    createdAt: '2025-03-10T08:00:00Z',
-    pinned: true,
-  },
-  {
-    id: '2',
-    title: 'KAIST 컴공 25년 가을 면접 후기',
-    body: '오늘 면접 봤습니다. 기술 면접이 생각보다 심층적이었고...',
-    category: '면접후기',
-    upvotes: 52,
-    commentCount: 14,
-    createdAt: '2025-03-15T14:00:00Z',
-  },
-  {
-    id: '3',
-    title: '학점이 낮은 경우 대학원 진학 가능한가요?',
-    body: '학점이 3.3정도 되는데 좋은 대학원 진학이 어려울까요? 연구 경험은 있습니다.',
-    category: '질문',
-    upvotes: 34,
-    commentCount: 31,
-    createdAt: '2025-03-18T11:00:00Z',
-  },
-  {
-    id: '4',
-    title: '서울대 / KAIST / POSTECH 석박통합 비교',
-    body: '세 학교 모두 합격한 경우 어디를 선택하는 게 좋을까요? 장단점을 비교해봤습니다...',
-    category: '정보공유',
-    upvotes: 128,
-    commentCount: 45,
-    createdAt: '2025-02-20T09:00:00Z',
-  },
-  {
-    id: '5',
-    title: '대학원 지원 시 지도교수 사전 컨택 필수인가요?',
-    body: '학교마다 다른 것 같은데, 일반적으로 어떻게 하나요?',
-    category: '질문',
-    upvotes: 61,
-    commentCount: 28,
-    createdAt: '2025-03-05T16:00:00Z',
-  },
-  {
-    id: '6',
-    title: '산업계 → 대학원 진학 경험 공유',
-    body: '5년 경력 후 박사 진학한 경험을 공유합니다. 나이가 걱정이신 분들 보세요...',
-    category: '경험공유',
-    upvotes: 203,
-    commentCount: 67,
-    createdAt: '2025-01-30T10:00:00Z',
-  },
-];
+const MOCK_POSTS: Post[] = [];
 
 const CATEGORIES = ['전체', '정보공유', '질문', '면접후기', '경험공유', '잡담'];
 

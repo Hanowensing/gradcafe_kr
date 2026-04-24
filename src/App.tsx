@@ -3,8 +3,6 @@ import Header from './components/Header';
 import Home from './pages/Home';
 import ResultDetail from './pages/ResultDetail';
 import SubmitResult from './pages/SubmitResult';
-import Stats from './pages/Stats';
-import Forum from './pages/Forum';
 
 function App() {
   return (
@@ -16,8 +14,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/result/:id" element={<ResultDetail />} />
             <Route path="/submit" element={<SubmitResult />} />
-            <Route path="/stats" element={<Stats />} />
-            <Route path="/forum" element={<Forum />} />
           </Routes>
         </main>
         <footer className="border-t border-slate-200 mt-16 py-8 text-center text-sm text-slate-400">
