@@ -14,6 +14,8 @@ export interface AdmissionResult {
   englishScore?: number;
   englishType?: 'TOEIC' | 'TOEFL' | 'IELTS';
   researchExp?: boolean;
+  paperCount?: number;
+  referralSource?: string;
   note?: string;
   createdAt: string;
   upvotes: number;

@@ -6,6 +6,8 @@ import type { Decision, Degree, Season } from '../types';
 import SearchCombobox from '../components/SearchCombobox';
 import { supabase } from '../lib/supabase';
 
+const REFERRAL_CHANNELS = ['인스타그램', '카카오톡 오픈채팅방', '지인 소개', '구글/네이버 검색', '기타'] as const;
+
 interface FormData {
   university: string;
   department: string;
@@ -17,13 +19,18 @@ interface FormData {
   englishType: 'TOEIC' | 'TOEFL' | 'IELTS' | '';
   englishScore: string;
   researchExp: 'true' | 'false' | '';
+  paperCount: string;
+  referralChannel: string;
+  referralDetail: string;
   note: string;
 }
 
 const init: FormData = {
   university: '', department: '',
   degree: '', decision: '', season: '', gpa: '', gpaMax: '4.5',
-  englishType: '', englishScore: '', researchExp: '', note: '',
+  englishType: '', englishScore: '', researchExp: '',
+  paperCount: '', referralChannel: '', referralDetail: '',
+  note: '',
 };
 
 export default function SubmitResult() {
@@ -56,6 +63,10 @@ export default function SubmitResult() {
       return;
     }
     setSubmitting(true);
+    const referralSource = form.referralChannel
+      ? [form.referralChannel, form.referralDetail].filter(Boolean).join(' — ')
+      : form.referralDetail || null;
+
     const { error } = await supabase.from('results').insert({
       university: form.university,
       department: form.department,
@@ -67,6 +78,8 @@ export default function SubmitResult() {
       english_type: form.englishType || null,
       english_score: form.englishScore ? parseFloat(form.englishScore) : null,
       research_exp: form.researchExp === 'true' ? true : form.researchExp === 'false' ? false : null,
+      paper_count: form.paperCount ? parseInt(form.paperCount, 10) : null,
+      referral_source: referralSource,
       note: form.note || null,
     });
     setSubmitting(false);
@@ -232,6 +245,45 @@ export default function SubmitResult() {
                 </button>
               ))}
             </div>
+          </FormGroup>
+
+          {/* 논문 개수 */}
+          <FormGroup label="논문 개수 (선택)">
+            <input
+              type="number"
+              min="0"
+              placeholder="예: 2"
+              value={form.paperCount}
+              onChange={e => update('paperCount', e.target.value)}
+              className={inputClass(false)}
+            />
+          </FormGroup>
+
+          {/* 유입 경로 */}
+          <FormGroup label="유입 경로 (선택)">
+            <div className="flex flex-wrap gap-2 mb-2.5">
+              {REFERRAL_CHANNELS.map(ch => (
+                <button
+                  key={ch}
+                  type="button"
+                  onClick={() => update('referralChannel', form.referralChannel === ch ? '' : ch)}
+                  className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                    form.referralChannel === ch
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                  }`}
+                >
+                  {ch}
+                </button>
+              ))}
+            </div>
+            <textarea
+              rows={2}
+              placeholder="채널 이름, 링크, 계정 등 자세히 적어주세요 (예: @gradkorea_insta, 오픈채팅방 '2026 서울대 컴공')"
+              value={form.referralDetail}
+              onChange={e => update('referralDetail', e.target.value)}
+              className={`${inputClass(false)} resize-none`}
+            />
           </FormGroup>
 
           {/* 메모 */}
