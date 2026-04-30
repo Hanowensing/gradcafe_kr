@@ -259,6 +259,17 @@ export default function SubmitResult() {
             />
           </FormGroup>
 
+          {/* 메모 */}
+          <FormGroup label="경험 공유 (선택)">
+            <textarea
+              rows={4}
+              placeholder="면접 내용, 준비 과정, 느낀 점 등 자유롭게 작성해주세요"
+              value={form.note}
+              onChange={e => update('note', e.target.value)}
+              className={`${inputClass(false)} resize-none`}
+            />
+          </FormGroup>
+
           {/* 유입 경로 */}
           <FormGroup label="유입 경로 (선택)">
             <div className="flex flex-wrap gap-2 mb-2.5">
@@ -282,17 +293,6 @@ export default function SubmitResult() {
               placeholder="채널 이름, 링크, 계정 등 자세히 적어주세요 (예: @gradkorea_insta, 오픈채팅방 '2026 서울대 컴공')"
               value={form.referralDetail}
               onChange={e => update('referralDetail', e.target.value)}
-              className={`${inputClass(false)} resize-none`}
-            />
-          </FormGroup>
-
-          {/* 메모 */}
-          <FormGroup label="경험 공유 (선택)">
-            <textarea
-              rows={4}
-              placeholder="면접 내용, 준비 과정, 느낀 점 등 자유롭게 작성해주세요"
-              value={form.note}
-              onChange={e => update('note', e.target.value)}
               className={`${inputClass(false)} resize-none`}
             />
           </FormGroup>
