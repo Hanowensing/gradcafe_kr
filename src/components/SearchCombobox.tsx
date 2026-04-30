@@ -37,13 +37,16 @@ export default function SearchCombobox({
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        if (allowCustom && query.trim() && !options.some(o => o === query.trim())) {
+          onChange(query.trim());
+        }
         setOpen(false);
         setQuery('');
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, []);
+  }, [query, allowCustom, options, onChange]);
 
   const select = (val: string) => {
     onChange(val);
@@ -63,8 +66,14 @@ export default function SearchCombobox({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && showCustomOption) {
-      select(query.trim());
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const exact = options.find(o => o.toLowerCase() === query.trim().toLowerCase());
+      if (exact) {
+        select(exact);
+      } else if (allowCustom && query.trim()) {
+        select(query.trim());
+      }
     }
     if (e.key === 'Escape') {
       setOpen(false);
