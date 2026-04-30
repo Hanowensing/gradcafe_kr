@@ -143,6 +143,120 @@ export const UNIVERSITIES = [
   'Oberlin College', 'Colorado College', 'Trinity College',
   'College of the Holy Cross', 'Kenyon College', 'Bucknell University',
   'Lafayette College', 'Union College', 'Dickinson College',
+
+  // 미국 — 추가 200 (랭킹 순, 기존 목록 제외)
+  // 상위 사립·공립 (1–50)
+  'College of William & Mary', 'University of Miami', 'Temple University',
+  'University of Denver', 'Loyola Marymount University',
+  'Texas Christian University', 'University of Houston', 'Texas Tech University',
+  'University of Texas at Dallas', 'George Mason University',
+  'New Jersey Institute of Technology', 'Virginia Commonwealth University',
+  'University of Mississippi', 'University of Arkansas', 'West Virginia University',
+  'Loyola University Chicago', 'Saint Louis University', 'Creighton University',
+  'Gonzaga University', 'Seton Hall University',
+  'DePaul University', 'University of South Florida', 'University of Central Florida',
+  'Florida International University', 'Florida Atlantic University',
+  'University of Cincinnati', 'Miami University', 'Ohio University',
+  'University of Illinois Chicago', 'University of Wisconsin-Milwaukee',
+  'Wayne State University', 'University of Colorado Denver', 'Boise State University',
+  'University of North Dakota', 'University of South Dakota',
+  'University of North Texas', 'University of Memphis',
+  'University of Alabama at Birmingham', 'University of Louisiana at Lafayette',
+  'University of Louisville',
+  'Old Dominion University', 'James Madison University',
+  'Georgia State University', 'Georgia Southern University', 'Kennesaw State University',
+  'Duquesne University', 'Hofstra University', 'Clark University',
+  'University of Maryland Baltimore County', 'Embry-Riddle Aeronautical University',
+
+  // 사립·전문대 (51–80)
+  'Florida Institute of Technology', 'University of San Diego',
+  'University of San Francisco', 'University of Portland', 'Xavier University',
+  'Loyola University New Orleans', 'University of the Pacific',
+  'University of Scranton', 'Saint Joseph\'s University', 'Fairfield University',
+  'Quinnipiac University', 'Sacred Heart University', 'University of Hartford',
+  'University of New Haven', 'Pace University', 'St. John\'s University',
+  'Iona University', 'New School', 'Long Island University',
+  'Towson University', 'Morgan State University', 'Salisbury University',
+  'La Salle University', 'Mercer University', 'Samford University',
+  'Nova Southeastern University', 'Stetson University', 'University of Tampa',
+  'University of New England', 'Suffolk University',
+
+  // 오하이오·중서부 주립 (81–100)
+  'Kent State University', 'University of Toledo', 'Ball State University',
+  'Western Michigan University', 'University of Akron',
+  'Bowling Green State University', 'University of Dayton',
+  'Missouri University of Science and Technology', 'University of Missouri-Kansas City',
+  'University of Missouri-St. Louis', 'Indiana State University',
+  'University of Southern Indiana', 'Illinois State University',
+  'Northern Illinois University', 'Southern Illinois University Carbondale',
+  'Southern Illinois University Edwardsville', 'Central Michigan University',
+  'Eastern Michigan University', 'Grand Valley State University',
+  'Northern Michigan University',
+
+  // 남동부 주립 (101–130)
+  'Louisiana Tech University', 'Arkansas State University',
+  'University of Southern Mississippi', 'University of Alabama in Huntsville',
+  'University of South Alabama', 'Troy University',
+  'University of Tennessee at Chattanooga', 'Tennessee Technological University',
+  'Middle Tennessee State University', 'East Tennessee State University',
+  'Tennessee State University', 'Western Kentucky University',
+  'Eastern Kentucky University', 'Murray State University',
+  'Northern Kentucky University', 'East Carolina University',
+  'University of North Carolina at Charlotte', 'University of North Carolina at Greensboro',
+  'University of North Carolina Wilmington', 'Appalachian State University',
+  'Western Carolina University', 'Augusta University',
+  'University of West Georgia', 'Georgia College & State University',
+  'Jacksonville State University', 'University of Louisiana Monroe',
+  'Southeastern Louisiana University', 'University of North Florida',
+  'University of West Florida', 'Florida Gulf Coast University',
+
+  // 텍사스 주립 (131–145)
+  'Texas State University', 'University of Texas at Arlington',
+  'University of Texas at San Antonio', 'University of Texas at El Paso',
+  'University of Texas Rio Grande Valley', 'Sam Houston State University',
+  'Stephen F. Austin State University', 'Lamar University',
+  'Texas A&M University-Corpus Christi', 'Texas A&M International University',
+  'West Texas A&M University', 'Angelo State University',
+  'University of Houston-Clear Lake', 'Prairie View A&M University',
+  'Tarleton State University',
+
+  // 위스콘신·아이오와·평원 주립 (146–160)
+  'University of Wisconsin-Eau Claire', 'University of Wisconsin-La Crosse',
+  'University of Wisconsin-Oshkosh', 'University of Wisconsin-Green Bay',
+  'University of Wisconsin-Stevens Point', 'University of Wisconsin-Whitewater',
+  'University of Northern Iowa', 'University of Northern Colorado',
+  'University of Colorado Colorado Springs', 'Weber State University',
+  'Idaho State University', 'University of Alaska Anchorage',
+  'University of Hawaii at Hilo', 'University of Maine',
+  'University of Massachusetts Dartmouth',
+
+  // 태평양·서부 (161–175)
+  'Seattle University', 'Western Washington University',
+  'Eastern Washington University', 'University of Puget Sound',
+  'Portland State University', 'San Diego State University',
+  'San Jose State University', 'Cal Poly San Luis Obispo', 'Cal Poly Pomona',
+  'Cal State Fullerton', 'Cal State Long Beach', 'Cal State Northridge',
+  'San Francisco State University', 'California State University Sacramento',
+  'Cal State East Bay',
+
+  // 버지니아·중부대서양 (176–185)
+  'Radford University', 'Longwood University',
+  'Christopher Newport University', 'Norfolk State University',
+  'University of Massachusetts Boston', 'University of Massachusetts Lowell',
+  'University of New Hampshire Manchester', 'Regis University',
+  'Missouri State University', 'University of Central Arkansas',
+
+  // 사우스캐롤라이나·캐롤라이나 (186–193)
+  'Winthrop University', 'Coastal Carolina University',
+  'Fayetteville State University', 'University of Arkansas at Little Rock',
+  'Florida A&M University', 'University of Mississippi Medical Center',
+  'Belmont University', 'Lipscomb University',
+
+  // 캘리포니아 주립 추가 (194–200)
+  'Cal State Bakersfield', 'Cal State San Bernardino',
+  'Cal Poly Humboldt', 'California State University Monterey Bay',
+  'Cal State San Marcos', 'Cal State Stanislaus',
+  'Cal State Dominguez Hills',
 ];
 
 export const DEPARTMENTS = [
