@@ -184,6 +184,7 @@ export default function SubmitResult() {
             <div className="grid grid-cols-2 gap-3 items-center">
               <input
                 type="number" step="0.01" min="0" max="5"
+                autoComplete="off"
                 placeholder="예: 4.2"
                 value={form.gpa}
                 onChange={e => update('gpa', e.target.value)}
@@ -219,6 +220,7 @@ export default function SubmitResult() {
               </select>
               <input
                 type="number"
+                autoComplete="off"
                 placeholder="점수 입력"
                 value={form.englishScore}
                 onChange={e => update('englishScore', e.target.value)}
@@ -252,6 +254,7 @@ export default function SubmitResult() {
             <input
               type="number"
               min="0"
+              autoComplete="off"
               placeholder="예: 2"
               value={form.paperCount}
               onChange={e => update('paperCount', e.target.value)}

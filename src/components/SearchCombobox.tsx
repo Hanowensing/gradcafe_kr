@@ -100,6 +100,7 @@ export default function SearchCombobox({
           <input
             ref={inputRef}
             autoFocus
+            autoComplete="off"
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
